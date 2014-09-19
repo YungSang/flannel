@@ -1,7 +1,13 @@
-FROM quay.io/coreos/flannelbox:1.0
+FROM debian:jessie
 
-MAINTAINER Eugene Yakubovich <eugene.yakubovich@coreos.com>
+RUN apt-get update -q && apt-get install -qy curl build-essential golang git linux-libc-dev
 
-ADD ./bin/flanneld /opt/bin/
+ENV GOPATH /go
 
-CMD /opt/bin/flanneld
+WORKDIR /go/src/github.com/coreos/flannel
+
+ADD . /go/src/github.com/coreos/flannel/
+
+RUN go build -o ${GOPATH}/bin/flanneld .
+
+CMD ["./installer"]

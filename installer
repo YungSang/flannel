@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if mountpoint -q /target; then
+  echo "Installing flanneld to /target"
+  cp -f /go/bin/flanneld /target/
+  strip /target/flanneld
+else
+  echo "/target is not a mountpoint."
+  echo "You can either:"
+  echo "- re-run this container with -v /opt/bin:/target"
+  echo "- extract the flanneld binary (located at /go/bin/flanneld)"
+fi
